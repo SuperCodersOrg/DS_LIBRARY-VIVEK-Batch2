@@ -99,6 +99,11 @@ The following functions can be used by the user to interact with the `DynamicArr
 
 # Section 2 – Internal Representation
 
+## Memory Diagram of Dyanmic Array
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/affb7ba2-4204-4733-9769-3856c45139ba" />
+
+
 ## Template
 
 The class uses templates so it can store any data type (`int`, `char`, `float`, `double`, etc.). Without templates, separate classes would be needed for each data type.
