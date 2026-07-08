@@ -1,22 +1,24 @@
 # Design Proposal – LinkedList
 
-## Section 1 – Public API
+# Section 1 – Public API
 
 <!-- The LinkedList is a linear data structure where each element is stored in a separate node allocated dynamically on the heap. Every node contains a value and a pointer to the next node. Unlike a DynamicArray, elements are not stored contiguously, making insertion and deletion efficient without shifting elements. -->
 
-The LinkedList is a linear data structure in which each element is stored inside a separate node allocated on the heap. Every node contains the stored value and a pointer to the next node. Unlike a DynamicArray, the elements are not stored in contiguous memory, allowing efficient insertion and deletion without shifting existing elements.
+The LinkedList is a linear data structure in which each element is stored inside a separate node allocated on the heap. Every node stores a value of type T and a pointer to the next node. Using templates allows the same LinkedList implementation to work with different data types such as int, float, char, or std::string without modifying the source code.
+
+ Unlike a DynamicArray, the elements are not stored in contiguous memory, allowing efficient insertion and deletion without shifting existing elements.
 
 
 The proposed public interface is:
 
 | Method | Description |
 |---------|-------------|
-| `void insertFront(int value)` | Inserts a new node at the beginning of the list. |
+| `void insertFront(const T& value)` | Inserts a new node at the beginning of the list. |
 | `void deleteFront()` | Removes the first node if the list is not empty. |
-| `void insert(int index, int value)` | Inserts a new node at the specified index position, if the index is (0 <=index <= size ) . |
-| `bool search(int value)` | Searches for a value and returns `true` if found, otherwise `false`.|
-| `size_t size()` | Returns the current number of nodes in the list. |
-| `void print()` | Displays all elements of the list from head to tail. |
+| `void insert(size_t index, const T& value)` | Inserts a new node at the specified index position, if the index is (0 <=index <= size ) . |
+| `bool search(const T& value) const` | Searches for a value and returns `true` if found, otherwise `false`.|
+| `size_t size() const` | Returns the current number of nodes in the list. |
+| `void print() const` | Displays all elements of the list from head to tail. |
 
 <!-- ### API Design Justification
 
@@ -32,13 +34,14 @@ Each node is dynamically allocated on the heap using **malloc()** and released u
 
 
 ```cpp
+template<typename T>
 class LinkedList
 {
 private:
 
     struct Node
     {
-        int data;
+        T data;
         Node* next;
     };
 
@@ -56,13 +59,13 @@ public:
 
     LinkedList& operator=(const LinkedList& other);
 
-    void insertFront(int value);
+    void insertFront(const T& value);
 
     void deleteFront();
 
-    void insert(int index, int value);
+    void insert(size_t index, const T& value);
 
-    bool search(int value);
+    bool search(const T& value) const;
 
     size_t size() const;
 
@@ -106,19 +109,32 @@ Deep copying ensures each LinkedList owns its own memory and prevents dangling p
 
 Since the LinkedList allocates memory dynamically, it follows the Rule of Three.
 
-#### Destructor
+####  Handling Templates with `malloc()` and `free()`
 
-The destructor traverses the entire list from the head and frees every node one by one using free() until no nodes remain. This ensures that every heap allocation is properly released and prevents memory leaks.
+Since the LinkedList is implemented as a template, it can store both primitive and complex data types. However, `malloc()` only allocates raw memory and does **not** automatically call the constructor of an object. For complex types such as `std::string`, this would leave the object uninitialized. To solve this, **placement new** is used to manually invoke the constructor after memory allocation.
+
+Similarly, `free()` only releases the allocated memory and does **not** call the object's destructor. Therefore, Before releasing memory with free(), the Node destructor is explicitly invoked. This automatically destroys the stored T object and any other members, ensuring proper cleanup before the raw memory is deallocated.
+
+#### Destructor
+<!-- 
+The destructor traverses the entire list from the head and frees every node one by one using free() until no nodes remain. This ensures that every heap allocation is properly released and prevents memory leaks. -->
+
+The destructor traverses the list from the head. For each node, it first explicitly invokes the Node destructor to destroy the stored object, then releases the raw memory using free(). This ensures that both object destruction and memory deallocation are performed correctly, preventing resource leaks.
 
 #### Copy Constructor
 
 The copy constructor performs a deep copy by creating completely new nodes and copying the values from the source list. Both lists become independent and own separate memory.
 
-#### Assignment Operator
-
+<!-- 
 The assignment operator first checks for self-assignment. It then frees every allocated node using free() before performing a deep copy of the source list. This guarantees correct memory ownership and prevents leaks.
 
-A shallow copy would only copy the `head` and `tail` pointers, causing two LinkedList objects to share the same nodes. When either object is destroyed, the second object would contain dangling pointers and eventually perform a double deletion. Therefore, deep copying is necessary to ensure each LinkedList object owns its own memory safely.
+A shallow copy would only copy the `head` and `tail` pointers, causing two LinkedList objects to share the same nodes. When either object is destroyed, the second object would contain dangling pointers and eventually perform a double deletion. Therefore, deep copying is necessary to ensure each LinkedList object owns its own memory safely. -->
+
+#### Assignment Operator
+
+The assignment operator first checks for self-assignment. It then traverses the existing list, explicitly destroys every node, releases its memory using `free()`, and finally performs a deep copy of the source list by allocating and constructing new nodes. This guarantees correct memory ownership while preventing memory leaks and double deletion.
+
+A shallow copy would only copy the `head` and `tail` pointers, causing two LinkedList objects to reference the same nodes. Destroying either object would leave the other with dangling pointers and eventually result in double deletion or memory corruption. Therefore, deep copying is necessary to ensure that each LinkedList object owns its own dynamically allocated memory safely.
 
 ---
 
@@ -178,6 +194,14 @@ Although the current API does not include an insertion-at-end function, maintain
 **Chosen:** Deep copying creates new nodes for every copied object, ensuring independent ownership of memory.
 
 **Rejected:** Shallow copying shares node pointers, leading to dangling pointers, memory corruption, and double-free errors.
+
+---
+
+### 6. Template-Based Design
+
+**Chosen**: The LinkedList is implemented as a template class (template<typename T>) so it can store any data type without rewriting the implementation.
+
+**Rejected**: Implementing the LinkedList only for int would require creating separate implementations for other data types, increasing code duplication and reducing reusability.
 
 ---
 <!-- 
