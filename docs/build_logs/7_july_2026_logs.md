@@ -4,147 +4,93 @@
 
 ## Entry 1
 
-**Date:** July 6, 2026
+**Date:** July 7, 2026
 
-**Duration:** 1 hour 30 minutes
+**Duration:** 1 hour
 
 **Goal:**
 
-
-<!-- Understand the project requirements and design the overall structure of the DynamicArray. -->
-Understanding project requirements and designing the overall structure of the DynamicArray.
-
+Design the internal representation of the LinkedList.
 
 **Problem Encountered:**
-Deciding which operations should be included in the public API while keeping the interface simple and easy to remember and less confusing functions.
+
+what to choose in between single linked list and doubly linked list.
 
 **What I Tried:**
-- Read the project requirements carefully.
-- Compared common DynamicArray operations with Python list methods.
-- Selected only the most useful functions for the first implementation.
+
+- Studied the implementation of singly and doubly linked lists.
+- Compared maintaining only a head pointer versus maintaining both head and tail.
+- Considered the cost of computing the list size by traversal.
 
 **Outcome:**
-Prepared the complete list of public methods including constructor, append(), pop(), remove(), insert(), size(), capacity(), clear(), and destructor.
+
+Finalized the internal structure using:
+- `Node* head`
+- `Node* tail`
+- `size_t count`
+
+Also decided to keep these members private for encapsulation so users cannot directly modify the internal structure.
 
 ---
 
 ## Entry 2
 
-**Date:** July 6, 2026
+**Date:** July 7, 2026
 
-**Duration:** 1 hour
+**Duration:** 50 minutes
 
 **Goal:**
-Design the internal representation of the DynamicArray.
+
+Decide how nodes should be allocated and released from memory.
 
 **Problem Encountered:**
-Choosing the data members required for efficient implementation.
+
+Using `malloc()` with template classes only allocating memory, it was not calling constructor and `free()` with template classes only deallocating memory but not calling destructor.
 
 **What I Tried:**
-- Studied how dynamic arrays are implemented.
-- Compared storing elements in contiguous memory with linked list storage.
-- Identified the minimum data members needed.
+
+- Studied how `malloc()` allocates only raw memory.
+- Learned how placement `new` constructs an object in allocated memory.
+- Studied explicit destructor calls before using `free()`.
 
 **Outcome:**
-Finalized the internal structure using:
-- `T* data`
-- `size_t size`
-- `size_t capacity`
 
-<!-- Also decided to keep these members private for encapsulation. -->
-DEcided to keep these members private for encapsulation, so that users can only access public functions and can't change private members.
+Decided to:
+- Allocate memory using `malloc()`.
+- Construct nodes using placement `new`.
+- Explicitly invoke the `Node` destructor before calling `free()`.
+
+This ensures correct behavior for both primitive and non-primitive data types.
 
 ---
 
 ## Entry 3
 
-**Date:** July 6, 2026
+**Date:** July 7, 2026
 
 **Duration:** 45 minutes
 
 **Goal:**
-Decide how memory resizing should work.
+
+Analyze the time complexity of each LinkedList operation.
 
 **Problem Encountered:**
-Choosing an appropriate capacity growth strategy.
+
+Accessing and inserting on last element take O(n) TC.
 
 **What I Tried:**
-- Compared increasing capacity by 1, 1.5×, 1.8×, and 2×.
-- Considered both memory usage and number of reallocations.
+
+- Used `Tail` pointer which stores the address of last node in linked list.
 
 **Outcome:**
-Selected the doubling strategy (`capacity *= 2`) because it minimizes resizing operations and provides amortized O(1) append performance.
-we can also choose 1.5x or 1.8x to reduce the unused space in the allocated memory but it will increase no of resizes. Whereas 2x factor reduces no of resizes but increase unused memory space.
+
+Also Prepared the complexity table of all operations of Linked list:
+- `insertFront()` — O(1)
+- `deleteFront()` — O(1)
+- `insert(index)` — O(n) and O(1) in case of front and end.
+- `search()` — O(n)
+- `size()` — O(1)
+- `print()` — O(n)
 
 ---
 
-## Entry 4
-
-**Date:** July 6, 2026
-
-**Duration:** 40 minutes
-
-**Goal:**
-Estimate the time complexity of each operation.
-
-**Problem Encountered:**
-Understanding why append() has amortized O(1) complexity instead of O(n).
-
-**What I Tried:**
-- Analyzed the resizing process.
-- Counted insertion and copy operations over multiple appends.
-- Calculated the average cost per insertion.
-
-**Outcome:**
-
-Prepared the complexity table and documented the amortized analysis of append(). 
-
-Also analyzed TC of pop() and pop(index) and remove(value).
-
----
-
-## Entry 5
-
-**Date:** July 6, 2026
-
-**Duration:** 35 minutes
-
-**Goal:**
-Identify important design decisions for the implementation.
-
-**Problem Encountered:**
-To provide random access and updation at any index we cant use linked list. Shallow copy and Double deletion in copying an object. Class supporting only the data type it was assigned in the class.
-
-**What I Tried:**
-- Compared contiguous memory with linked lists.
-- Compared deep copy with shallow copy.
-- Studied the Rule of Three and template-based programming.
-
-**Outcome:**
-Documented the major design decisions:
-- Contiguous memory will be used so that we can easily access and upadte value by index by using memory address in O(1).
-- Capacity doubling will be done in resizing on the place of 1x or 4x or 1.5x.
-- Template-based implementation will be used here so that it can support different data tpyes like char, int, float.
-- Deep copy using the Rule of Three to allocate different unique memory address to new object on the place of assigning same address of previous object in shallow copy.
-
----
-<!-- 
-## Entry 6
-
-**Date:** July 6, 2026
-
-**Duration:** 30 minutes
-
-**Goal:**
-Prepare the complete design proposal for submission.
-
-**Problem Encountered:**
-Ensuring every required section matched the assignment specification.
-
-**What I Tried:**
-- Reviewed each section against the project instructions.
-- Verified the API, internal representation, complexity estimates, and design decisions.
-- Added explanations wherever necessary.
-
-**Outcome:**
-Completed the design proposal and prepared it for implementation approval. -->
