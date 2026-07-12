@@ -68,48 +68,6 @@ typename HashMap<K, V>::Node* HashMap<K, V>::findNode(const K& key) const
     return nullptr;
 }
 
-// // Rehash when load factor exceeds threshold
-// template<typename K, typename V>
-// void HashMap<K, V>::rehash()
-// {
-//     // Save the old bucket array and count
-//     DynamicArray<Node*> oldBuckets = buckets;
-//     size_t oldBucketCount = bucketCount;
-    
-//     // Double the bucket count
-//     size_t newBucketCount = bucketCount * 2;
-    
-//     // Create new bucket array with null pointers
-//     bucketCount = newBucketCount;
-//     buckets = DynamicArray<Node*>();
-    
-//     // Initialize all buckets to nullptr
-//     for (size_t i = 0; i < bucketCount; i++)
-//         buckets.append(nullptr);
-    
-//     // Reset element count and reinsert all elements
-//     elementCount = 0;
-    
-//     // Traverse all old buckets
-//     for (size_t i = 0; i < oldBucketCount; i++)
-//     {
-//         Node* current = oldBuckets[i];
-        
-//         // Traverse each linked list
-//         while (current != nullptr)
-//         {
-//             Node* next = current->next;
-            
-//             // Insert node into new bucket array
-//             put(current->key, current->value);
-            
-//             // Move to the next node (will be deleted by oldBuckets destructor)
-//             current = next;
-//         }
-//     }
-    
-// }
-
 template<typename K, typename V>
 void HashMap<K, V>::rehash()
 {
@@ -155,73 +113,96 @@ HashMap<K, V>::HashMap()
     // Initialize member variables
     bucketCount = 8;                // Start with 8 buckets
     elementCount = 0;
-    maxLoadFactor = 0.75f;
+    loadFactor = 0.75f;
     
     // Initialize bucket array with null pointers
     for (size_t i = 0; i < bucketCount; i++)
         buckets.append(nullptr);
 }
+
 
 // Copy Constructor
 template<typename K, typename V>
 HashMap<K, V>::HashMap(const HashMap& other)
 {
-    // Copy simple member variables
     bucketCount = other.bucketCount;
-    elementCount = 0;
-    maxLoadFactor = other.maxLoadFactor;
-    
-    // Initialize bucket array with null pointers
+    elementCount = other.elementCount;
+    loadFactor = other.loadFactor;
+
+    // Create bucket array
     for (size_t i = 0; i < bucketCount; i++)
         buckets.append(nullptr);
-    
-    // Deep copy all nodes from other
+
+    // Deep copy every bucket
     for (size_t i = 0; i < bucketCount; i++)
     {
         Node* current = other.buckets[i];
-        
+        Node** tail = &buckets[i];
+
         while (current != nullptr)
         {
-            // Insert a copy of the key-value pair
-            put(current->key, current->value);
+            Node* newNode = (Node*)std::malloc(sizeof(Node));
+
+            if (newNode == nullptr)
+                throw std::bad_alloc();
+
+            new (&newNode->key) K(current->key);
+            new (&newNode->value) V(current->value);
+
+            newNode->next = nullptr;
+
+            *tail = newNode;
+            tail = &newNode->next;
+
             current = current->next;
         }
     }
 }
 
+
 // Assignment Operator
 template<typename K, typename V>
 HashMap<K, V>& HashMap<K, V>::operator=(const HashMap& other)
 {
-    // Check for self-assignment
     if (this == &other)
         return *this;
-    
-    // Clear existing contents
+
     clear();
-    
-    // Copy member variables
+
     bucketCount = other.bucketCount;
-    elementCount = 0;
-    maxLoadFactor = other.maxLoadFactor;
-    
-    // Reinitialize bucket array
+    elementCount = other.elementCount;
+    loadFactor = other.loadFactor;
+
     buckets = DynamicArray<Node*>();
+
     for (size_t i = 0; i < bucketCount; i++)
         buckets.append(nullptr);
-    
-    // Deep copy all nodes from other
+
+    // Deep copy every bucket
     for (size_t i = 0; i < bucketCount; i++)
     {
         Node* current = other.buckets[i];
-        
+        Node** tail = &buckets[i];
+
         while (current != nullptr)
         {
-            put(current->key, current->value);
+            Node* newNode = (Node*)std::malloc(sizeof(Node));
+
+            if (newNode == nullptr)
+                throw std::bad_alloc();
+
+            new (&newNode->key) K(current->key);
+            new (&newNode->value) V(current->value);
+
+            newNode->next = nullptr;
+
+            *tail = newNode;
+            tail = &newNode->next;
+
             current = current->next;
         }
     }
-    
+
     return *this;
 }
 
@@ -233,3 +214,187 @@ HashMap<K, V>::~HashMap()
     clear();
 }
 
+
+
+// Public API Implementation
+
+
+// Insert or update a key-value pair
+template<typename K, typename V>
+void HashMap<K, V>::put(const K& key, const V& value)
+{
+    // Check if key already exists
+    Node* existing = findNode(key);
+    
+    if (existing != nullptr)
+    {
+        // Update existing value
+        existing->value.~V();                  // Destroy old value
+        new (&existing->value) V(value);       // Construct new value
+        return;
+    }
+    
+    // Check if rehashing is needed
+    float currentLoadFactor = static_cast<float>(elementCount + 1) / bucketCount;
+    if (currentLoadFactor > loadFactor)
+    {
+        rehash();
+    }
+    
+    // Compute bucket index
+    size_t hashValue = hash(key);
+    size_t index = hashValue % bucketCount;
+    
+    // Create new node
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    
+    if (newNode == nullptr)
+        throw std::bad_alloc();
+    
+    // Construct key and value using placement new
+    new (&newNode->key) K(key);
+    new (&newNode->value) V(value);
+    
+    // Insert at the front of the linked list
+    newNode->next = buckets[index];
+    buckets[index] = newNode;
+    
+    // Increment element count
+    elementCount++;
+}
+
+// Get a mutable reference to the value for the given key
+template<typename K, typename V>
+V& HashMap<K, V>::get(const K& key)
+{
+    Node* node = findNode(key);
+    
+    if (node == nullptr)
+        throw std::out_of_range("Key not found in HashMap");
+    
+    return node->value;
+}
+
+// Get a const reference to the value for the given key
+template<typename K, typename V>
+const V& HashMap<K, V>::get(const K& key) const
+{
+    Node* node = findNode(key);
+    
+    if (node == nullptr)
+        throw std::out_of_range("Key not found in HashMap");
+    
+    return node->value;
+}
+
+// Check if a key exists in the HashMap
+template<typename K, typename V>
+bool HashMap<K, V>::contains(const K& key) const
+{
+    return findNode(key) != nullptr;
+}
+
+// Remove a key-value pair by key
+template<typename K, typename V>
+bool HashMap<K, V>::remove(const K& key)
+{
+    // Return false if no buckets exist
+    if (bucketCount == 0)
+        return false;
+    
+    // Compute bucket index
+    size_t hashValue = hash(key);
+    size_t index = hashValue % bucketCount;
+    
+    // Handle empty bucket
+    if (buckets[index] == nullptr)
+        return false;
+    
+    // Check if the first node matches
+    Node* current = buckets[index];
+    
+    if (current->key == key)
+    {
+        // Remove the first node
+        buckets[index] = current->next;
+        
+        // Destroy objects and free memory
+        current->key.~K();
+        current->value.~V();
+        free(current);
+        
+        elementCount--;
+        return true;
+    }
+    
+    // Traverse the list to find the node to remove
+    Node* prev = current;
+    current = current->next;
+    
+    while (current != nullptr)
+    {
+        if (current->key == key)
+        {
+            // Unlink the node
+            prev->next = current->next;
+            
+            // Destroy objects and free memory
+            current->key.~K();
+            current->value.~V();
+            free(current);
+            
+            elementCount--;
+            return true;
+        }
+        
+        prev = current;
+        current = current->next;
+    }
+    
+    // Key not found
+    return false;
+}
+
+// Clear all key-value pairs from the HashMap
+template<typename K, typename V>
+void HashMap<K, V>::clear()
+{
+    // Traverse all buckets
+    for (size_t i = 0; i < bucketCount; i++)
+    {
+        Node* current = buckets[i];
+        
+        // Traverse and delete all nodes in this bucket
+        while (current != nullptr)
+        {
+            Node* next = current->next;
+            
+            // Destroy objects and free memory
+            current->key.~K();
+            current->value.~V();
+            free(current);
+            
+            current = next;
+        }
+        
+        // Set bucket to nullptr
+        buckets[i] = nullptr;
+    }
+    
+    // Reset element count
+    elementCount = 0;
+}
+
+// Return the number of key-value pairs
+template<typename K, typename V>
+size_t HashMap<K, V>::size() const
+{
+    return elementCount;
+}
+
+// Check if the HashMap is empty
+template<typename K, typename V>
+bool HashMap<K, V>::empty() const
+{
+    return elementCount == 0;
+}
