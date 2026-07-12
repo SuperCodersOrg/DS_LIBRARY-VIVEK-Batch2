@@ -68,44 +68,168 @@ typename HashMap<K, V>::Node* HashMap<K, V>::findNode(const K& key) const
     return nullptr;
 }
 
-// Rehash when load factor exceeds threshold
+// // Rehash when load factor exceeds threshold
+// template<typename K, typename V>
+// void HashMap<K, V>::rehash()
+// {
+//     // Save the old bucket array and count
+//     DynamicArray<Node*> oldBuckets = buckets;
+//     size_t oldBucketCount = bucketCount;
+    
+//     // Double the bucket count
+//     size_t newBucketCount = bucketCount * 2;
+    
+//     // Create new bucket array with null pointers
+//     bucketCount = newBucketCount;
+//     buckets = DynamicArray<Node*>();
+    
+//     // Initialize all buckets to nullptr
+//     for (size_t i = 0; i < bucketCount; i++)
+//         buckets.append(nullptr);
+    
+//     // Reset element count and reinsert all elements
+//     elementCount = 0;
+    
+//     // Traverse all old buckets
+//     for (size_t i = 0; i < oldBucketCount; i++)
+//     {
+//         Node* current = oldBuckets[i];
+        
+//         // Traverse each linked list
+//         while (current != nullptr)
+//         {
+//             Node* next = current->next;
+            
+//             // Insert node into new bucket array
+//             put(current->key, current->value);
+            
+//             // Move to the next node (will be deleted by oldBuckets destructor)
+//             current = next;
+//         }
+//     }
+    
+// }
+
 template<typename K, typename V>
 void HashMap<K, V>::rehash()
 {
-    // Save the old bucket array and count
     DynamicArray<Node*> oldBuckets = buckets;
     size_t oldBucketCount = bucketCount;
-    
-    // Double the bucket count
-    size_t newBucketCount = bucketCount * 2;
-    
-    // Create new bucket array with null pointers
-    bucketCount = newBucketCount;
+
+    bucketCount *= 2;
+
     buckets = DynamicArray<Node*>();
-    
-    // Initialize all buckets to nullptr
+
     for (size_t i = 0; i < bucketCount; i++)
         buckets.append(nullptr);
-    
-    // Reset element count and reinsert all elements
-    elementCount = 0;
-    
-    // Traverse all old buckets
+
+    // Don't change elementCount.
+    // We are only moving nodes.
+
     for (size_t i = 0; i < oldBucketCount; i++)
     {
         Node* current = oldBuckets[i];
-        
-        // Traverse each linked list
+
         while (current != nullptr)
         {
             Node* next = current->next;
-            
-            // Insert node into new bucket array
-            put(current->key, current->value);
-            
-            // Move to the next node (will be deleted by oldBuckets destructor)
+
+            size_t index = hash(current->key) % bucketCount;
+
+            // Insert node at the beginning of the new bucket
+            current->next = buckets[index];
+            buckets[index] = current;
+
             current = next;
         }
     }
-    
 }
+
+
+// Constructors, Destructor, and Assignment
+
+// Default Constructor
+template<typename K, typename V>
+HashMap<K, V>::HashMap()
+{
+    // Initialize member variables
+    bucketCount = 8;                // Start with 8 buckets
+    elementCount = 0;
+    maxLoadFactor = 0.75f;
+    
+    // Initialize bucket array with null pointers
+    for (size_t i = 0; i < bucketCount; i++)
+        buckets.append(nullptr);
+}
+
+// Copy Constructor
+template<typename K, typename V>
+HashMap<K, V>::HashMap(const HashMap& other)
+{
+    // Copy simple member variables
+    bucketCount = other.bucketCount;
+    elementCount = 0;
+    maxLoadFactor = other.maxLoadFactor;
+    
+    // Initialize bucket array with null pointers
+    for (size_t i = 0; i < bucketCount; i++)
+        buckets.append(nullptr);
+    
+    // Deep copy all nodes from other
+    for (size_t i = 0; i < bucketCount; i++)
+    {
+        Node* current = other.buckets[i];
+        
+        while (current != nullptr)
+        {
+            // Insert a copy of the key-value pair
+            put(current->key, current->value);
+            current = current->next;
+        }
+    }
+}
+
+// Assignment Operator
+template<typename K, typename V>
+HashMap<K, V>& HashMap<K, V>::operator=(const HashMap& other)
+{
+    // Check for self-assignment
+    if (this == &other)
+        return *this;
+    
+    // Clear existing contents
+    clear();
+    
+    // Copy member variables
+    bucketCount = other.bucketCount;
+    elementCount = 0;
+    maxLoadFactor = other.maxLoadFactor;
+    
+    // Reinitialize bucket array
+    buckets = DynamicArray<Node*>();
+    for (size_t i = 0; i < bucketCount; i++)
+        buckets.append(nullptr);
+    
+    // Deep copy all nodes from other
+    for (size_t i = 0; i < bucketCount; i++)
+    {
+        Node* current = other.buckets[i];
+        
+        while (current != nullptr)
+        {
+            put(current->key, current->value);
+            current = current->next;
+        }
+    }
+    
+    return *this;
+}
+
+// Destructor
+template<typename K, typename V>
+HashMap<K, V>::~HashMap()
+{
+    // Clear all nodes and free memory
+    clear();
+}
+
