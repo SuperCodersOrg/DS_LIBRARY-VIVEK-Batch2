@@ -8,7 +8,7 @@
 #include "DynamicArray.h"
 
 template <typename K, typename V>
-class Hashmap{
+class HashMap{
     private:
         struct Node{
             K key;
@@ -17,7 +17,7 @@ class Hashmap{
         };
 
     DynamicArray<Node*> buckets;
-    size_t buckets;
+    // size_t buckets;
     size_t bucketCount;
     size_t elementCount;
     float loadFactor;
@@ -33,21 +33,21 @@ class Hashmap{
         HashMap();
         
         //Copy constructor
-        Hashmap(const HashMap& other);
+        HashMap(const HashMap& other);
 
         //Copy assignment operator
-        HashMap& operator=(const HashMap& other)
+        HashMap& operator=(const HashMap& other);
 
         //destructor
-        ~HashMap()
+        ~HashMap();
 
         //Public API
-        void put(const k& key, const V& value);
-        v& get(const K& key);
+        void put(const K& key, const V& value);
+        V& get(const K& key);
         const V& get(const K& key) const;
         bool contains(const K& key) const;
         bool remove(const K& key);
-        bool clear();
+        void clear();
         size_t size() const;
         bool empty()const;
 
