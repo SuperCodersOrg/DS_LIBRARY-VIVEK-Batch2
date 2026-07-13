@@ -10,11 +10,32 @@ void DynamicArray<T>::resize()
     if (newData == nullptr)
         throw std::bad_alloc();
 
-    for (int i = 0; i < sz; i++)
+    // for (int i = 0; i < sz; i++)
+    // {
+    //     new(&newData[i]) T(data[i]);
+    //     data[i].~T();
+    // }
+    size_t i = 0;
+
+    try
     {
-        new(&newData[i]) T(data[i]);
-        data[i].~T();
+        for (; i < sz; i++)
+        {
+            new (&newData[i]) T(data[i]);
+        }
     }
+    catch (...)
+    {
+        for (size_t j = 0; j < i; j++)
+            newData[j].~T();
+
+        std::free(newData);
+        throw;
+    }
+
+    // Destroy old objects only after all copies succeed
+    for (size_t j = 0; j < sz; j++)
+        data[j].~T();
 
     std::free(data);
     data = newData;
@@ -39,12 +60,18 @@ DynamicArray<T>::DynamicArray(const DynamicArray& other)
 {
     sz = other.sz;
     cap = other.cap;
+    if (cap == 0)
+    {
+        data = nullptr;
+        return ;
+    }
+
     data = (T*)std::malloc(sizeof(T) * cap);
 
     if (data == nullptr)
         throw std::bad_alloc();
 
-    for (int i = 0; i < sz; i++)
+    for (size_t i = 0; i < sz; i++)
         new(&data[i]) T(other.data[i]);
 }
 
@@ -62,12 +89,18 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray& other)
 
     sz = other.sz;
     cap = other.cap;
+    if (cap == 0)
+    {
+        data = nullptr;
+        return *this;
+    }
+
     data = (T*)std::malloc(sizeof(T) * cap);
 
     if (data == nullptr)
         throw std::bad_alloc();
 
-    for (int i = 0; i < sz; i++)
+    for (size_t i = 0; i < sz; i++)
         new(&data[i]) T(other.data[i]);
 
     return *this;
@@ -77,7 +110,7 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray& other)
 template<typename T>
 DynamicArray<T>::~DynamicArray()
 {
-    for (int i = 0; i < sz; i++)
+    for (size_t i = 0; i < sz; i++)
         data[i].~T();
 
     std::free(data);
@@ -146,7 +179,7 @@ T DynamicArray<T>::pop(size_t index)
     T value = data[index];
 
     // Shift all elements one position to the left
-    for (int i = index; i < sz - 1; i++)
+    for (size_t i = index; i < sz - 1; i++)
     {
         data[i] = data[i + 1];
     }
@@ -179,7 +212,7 @@ void DynamicArray<T>::insert(size_t index, const T& value)
 
     new(&data[sz]) T(data[sz - 1]);
 
-    for (int i = sz - 1; i > index; i--)
+    for (size_t i = sz - 1; i > index; i--)
         data[i] = data[i - 1];
 
     data[index] = value;
@@ -190,7 +223,7 @@ void DynamicArray<T>::insert(size_t index, const T& value)
 template<typename T>
 void DynamicArray<T>::remove(const T& value)
 {
-    for (int i = 0; i < sz; i++)
+    for (size_t i = 0; i < sz; i++)
     {
         if (data[i] == value)
         {
@@ -205,7 +238,7 @@ void DynamicArray<T>::remove(const T& value)
 template<typename T>
 void DynamicArray<T>::clear()
 {
-    for (int i = 0; i < sz; i++)
+    for (size_t i = 0; i < sz; i++)
         data[i].~T();
 
     sz = 0;
@@ -230,6 +263,15 @@ T& DynamicArray<T>::operator[](size_t index)
 {
     if (index >= sz)
         throw std::out_of_range("Invalid Index");
+
+    return data[index];
+}
+
+template<typename T>
+const T& DynamicArray<T>::operator[](size_t index) const
+{
+    if (index >= sz)
+        throw std::out_of_range("Index out of range");
 
     return data[index];
 }

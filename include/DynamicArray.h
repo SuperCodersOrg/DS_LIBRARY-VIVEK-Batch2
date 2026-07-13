@@ -30,6 +30,7 @@ public:
     void remove(const T& value);
     // Random Access
     T& operator[](size_t index);
+    const T& operator[](size_t index) const;
 
     void clear();
 
