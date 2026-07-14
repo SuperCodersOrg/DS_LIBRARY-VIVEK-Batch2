@@ -10,11 +10,6 @@ void DynamicArray<T>::resize()
     if (newData == nullptr)
         throw std::bad_alloc();
 
-    // for (int i = 0; i < sz; i++)
-    // {
-    //     new(&newData[i]) T(data[i]);
-    //     data[i].~T();
-    // }
     size_t i = 0;
 
     try
@@ -50,8 +45,34 @@ DynamicArray<T>::DynamicArray()
     cap = 0;
     data = nullptr;;
 
-    // if (data == nullptr)
-    //     throw std::bad_alloc();
+}
+
+template<typename T>
+DynamicArray<T>::DynamicArray(size_t count, const T& value)
+    : sz(count), cap(count)  // <-- Capacity = count (not double, not 4)
+{
+    data = (T*)std::malloc(sizeof(T) * cap);
+    if (data == nullptr)
+        throw std::bad_alloc();
+
+        if (data == nullptr)
+        throw std::bad_alloc();
+
+    size_t i = 0;
+
+    try
+    {
+        for (; i < sz; i++)
+            new(&data[i]) T(value);
+    }
+    catch (...)
+    {
+        for (size_t j = 0; j < i; j++)
+            data[j].~T();
+
+        std::free(data);
+        throw;
+    }
 }
 
 // Copy Constructor
@@ -71,8 +92,21 @@ DynamicArray<T>::DynamicArray(const DynamicArray& other)
     if (data == nullptr)
         throw std::bad_alloc();
 
-    for (size_t i = 0; i < sz; i++)
-        new(&data[i]) T(other.data[i]);
+    size_t i = 0;
+
+    try
+    {
+        for (; i < sz; i++)
+            new(&data[i]) T(other.data[i]);
+    }
+    catch (...)
+    {
+        for (size_t j = 0; j < i; j++)
+            data[j].~T();
+
+        std::free(data);
+        throw;
+    }
 }
 
 // Copy Assignment Operator
@@ -139,34 +173,6 @@ T DynamicArray<T>::pop()
     data[sz].~T();
     return value;
 }
-
-// // Pop (By Index)
-// template<typename T>
-// T DynamicArray<T>::pop(int index)
-// {
-//     if (index < 0 || index >= sz)
-//         throw std::out_of_range("Invalid Index");
-
-//     T value = data[index];
-//     // data[index].~T();
-
-//     // for (int i = index; i < sz - 1; i++)
-//     // {
-//     //     new(&data[i]) T(data[i + 1]);
-//     //     data[i + 1].~T();
-//     // }
-
-//     // sz--;
-
-//     for (int i = index; i < sz - 1; i++)
-//     {
-//         data[i] = data[i + 1];
-//     }
-
-//     sz--;
-//     data[sz].~T();
-//     return value;
-// }
 
 template<typename T>
 T DynamicArray<T>::pop(size_t index)

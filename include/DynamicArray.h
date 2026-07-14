@@ -18,12 +18,13 @@ private:
 public:
     // Constructors & Destructor
     DynamicArray();
+    DynamicArray(size_t count, const T& value);  // array of size with a value 
     DynamicArray(const DynamicArray& other);
     DynamicArray& operator=(const DynamicArray& other);
     ~DynamicArray();
 
     // API Methods
-    void append(const T& value);
+    void append(const T& value = T());
     T pop();
     T pop(size_t index);
     void insert(size_t index, const T& value);
