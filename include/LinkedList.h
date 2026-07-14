@@ -39,6 +39,19 @@ public:
     bool search(const T& value) const;
     size_t size() const;
     void print() const;
+
+    T* find(const T& value);
+
+    const T* find(const T& value) const;
+
+    void clear();
+    bool remove(const T& value);
+    bool empty() const;
+
+    template<typename Func>
+    void forEach(Func func);
+
+    void insertBack(const T& value);
 };
 
 // Include implementation file for templates

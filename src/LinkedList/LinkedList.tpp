@@ -16,10 +16,10 @@ LinkedList<T>::LinkedList()
 template<typename T>
 LinkedList<T>::~LinkedList()
 {
-    while (head != nullptr)
-    {
-        deleteFront();
-    }
+    // while (head != nullptr)
+    // {
+    clear();
+    // }
 }
 
 
@@ -51,7 +51,7 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList& other)
     {
         while (head != nullptr)
         {
-            deleteFront();
+            clear();
         }
 
         Node* current = other.head;
@@ -74,12 +74,19 @@ void LinkedList<T>::insertFront(const T& value)
 
     Node* newNode = (Node*)std::malloc(sizeof(Node));
 
-    if (newNode == nullptr)
-    {
-        return;
-    }
+    if(!newNode)
+    throw std::bad_alloc();
 
-    new (&newNode->data) T(value);
+    // new (&newNode->data) T(value);
+    try
+    {
+        new(&newNode->data) T(value);
+    }
+    catch(...)
+    {
+        std::free(newNode);
+        throw;
+    }
 
     newNode->next = head;
 
@@ -94,15 +101,12 @@ void LinkedList<T>::insertFront(const T& value)
 }
 
 
-// deleteFront()
-
+// Delete Front
 template<typename T>
 void LinkedList<T>::deleteFront()
 {
-    if (head == nullptr)
-    {
-        return;
-    }
+    if(head == nullptr)
+        return;  // Added missing semicolon
 
     Node* temp = head;
 
@@ -119,7 +123,6 @@ void LinkedList<T>::deleteFront()
 
     count--;
 }
-
 
 // insert()
 
@@ -141,12 +144,18 @@ void LinkedList<T>::insert(size_t index, const T& value)
     {
         Node* newNode = (Node*)std::malloc(sizeof(Node));
 
-        if (newNode == nullptr)
-        {
-            return;
-        }
+        if(!newNode)
+        throw std::bad_alloc();
 
-        new (&newNode->data) T(value);
+        try
+        {
+            new(&newNode->data) T(value);
+        }
+        catch(...)
+        {
+            std::free(newNode);
+            throw;
+        }
 
         newNode->next = nullptr;
 
@@ -173,7 +182,17 @@ void LinkedList<T>::insert(size_t index, const T& value)
         return;
     }
 
-    new (&newNode->data) T(value);
+    // new (&newNode->data) T(value);
+
+    try
+    {
+        new(&newNode->data) T(value);
+    }
+    catch(...)
+    {
+        std::free(newNode);
+        throw;
+    }
 
     newNode->next = prev->next;
 
@@ -188,21 +207,8 @@ void LinkedList<T>::insert(size_t index, const T& value)
 template<typename T>
 bool LinkedList<T>::search(const T& value) const
 {
-    Node* current = head;
-
-    while (current != nullptr)
-    {
-        if (current->data == value)
-        {
-            return true;
-        }
-
-        current = current->next;
-    }
-
-    return false;
+    return find(value)!=nullptr;
 }
-
 
 // size()
 
@@ -233,4 +239,148 @@ void LinkedList<T>::print() const
     }
 
     std::cout << std::endl;
+}
+
+// find
+template<typename T>
+T* LinkedList<T>::find(const T& value)
+{
+    Node* current = head;
+
+    while (current != nullptr)
+    {
+        if (current->data == value)
+        {
+            return &current->data;
+        }
+
+        current = current->next;
+    }
+
+    return nullptr;
+}
+
+//find const
+template<typename T>
+const T* LinkedList<T>::find(const T& value) const
+{
+    Node* current = head;
+
+    while (current != nullptr)
+    {
+        if (current->data == value)
+        {
+            return &current->data;
+        }
+
+        current = current->next;
+    }
+
+    return nullptr;
+}
+
+//remove
+//remove
+template<typename T>
+bool LinkedList<T>::remove(const T& value)
+{
+    if (head == nullptr)
+        return false;
+
+    if (head->data == value)
+    {
+        deleteFront();
+        return true;
+    }
+
+    Node* prev = head;
+    Node* current = head->next;
+
+    while (current != nullptr)
+    {
+        if (current->data == value)
+        {
+            prev->next = current->next;
+
+            if (current == tail)
+                tail = prev;
+
+            current->data.~T();
+            std::free(current);
+
+            count--;
+
+            return true;
+        }
+
+        prev = current;
+        current = current->next;
+    }
+
+    return false;
+}
+
+//foreach
+template<typename T>
+template<typename Func>
+void LinkedList<T>::forEach(Func func)
+{
+    Node* current = head;
+
+    while (current != nullptr)
+    {
+        func(current->data);
+        current = current->next;
+    }
+}
+
+//clear
+template<typename T>
+void LinkedList<T>::clear()
+{
+    while(head != nullptr)
+    {
+        deleteFront();
+    }
+}
+
+template<typename T>
+bool LinkedList<T>::empty() const
+{
+    return count == 0;
+}
+
+//insertback
+template<typename T>
+void LinkedList<T>::insertBack(const T& value)
+{
+    Node* newNode=(Node*)std::malloc(sizeof(Node));
+
+    if(!newNode)
+        throw std::bad_alloc();
+
+    // new(&newNode->data) T(value);
+    try
+    {
+        new(&newNode->data) T(value);
+    }
+    catch(...)
+    {
+        std::free(newNode);
+        throw;
+    }
+
+    newNode->next=nullptr;
+
+    if(head==nullptr)
+    {
+        head=tail=newNode;
+    }
+    else
+    {
+        tail->next=newNode;
+        tail=newNode;
+    }
+
+    count++;
 }
