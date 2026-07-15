@@ -6,6 +6,7 @@
 #include <stdexcept>  // For std::out_of_range, std::bad_alloc
 #include <string>
 #include "DynamicArray.h" 
+#include "LinkedList.h"
 
 // =================== Hash Utilities ===================
 
@@ -83,17 +84,23 @@ private:
     struct Node {
         K key;
         V value;
-        Node* next;
+
+        bool operator==(const Node& other) const
+        {
+            return key == other.key;
+        }
     };
 
-    DynamicArray<Node*> buckets;
+    DynamicArray< LinkedList<Node> >buckets;
     size_t bucketCount;
     size_t elementCount;
     float loadFactor;
 
     size_t hash(const K& key) const;
     void rehash();
-    Node* findNode(const K& key) const;
+    // Node* findNode(const K& key) const;`7
+    Node* findNode(const K& key);
+    const Node* findNode(const K& key) const;
 
 public:
     HashMap();
@@ -109,6 +116,8 @@ public:
     void clear();
     size_t size() const;
     bool empty() const;
+    template<typename Func>
+    void forEach(Func func);
 };
 
 // Include the implementation at the bottom of the header
