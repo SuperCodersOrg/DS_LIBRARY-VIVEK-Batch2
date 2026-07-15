@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 #include "../../include/DynamicArray.h"
 
-TEST(SizeTests, EmptyArraySizeIsZero)
+TEST(DynamicArraySizeTests, EmptyArraySizeIsZero)
 {
     DynamicArray<int> arr;
 
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(SizeTests, SizeAfterAppendingElements)
+TEST(DynamicArraySizeTests, SizeAfterAppendingElements)
 {
     DynamicArray<int> arr;
 
@@ -19,7 +19,7 @@ TEST(SizeTests, SizeAfterAppendingElements)
     EXPECT_EQ(arr.size(), 3);
 }
 
-TEST(SizeTests, SizeAfterRemovingElements)
+TEST(DynamicArraySizeTests, SizeAfterRemovingElements)
 {
     DynamicArray<int> arr;
 
@@ -32,7 +32,7 @@ TEST(SizeTests, SizeAfterRemovingElements)
     EXPECT_EQ(arr.size(), 2);
 }
 
-TEST(SizeTests, SizeAfterClear)
+TEST(DynamicArraySizeTests, SizeAfterClear)
 {
     DynamicArray<int> arr;
 

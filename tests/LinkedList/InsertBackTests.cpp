@@ -2,7 +2,7 @@
 #include "../../include/LinkedList.h"
 
 
-TEST(InsertBackTests, InsertIntoEmptyList)
+TEST(LinkedListInsertBackTests, InsertIntoEmptyList)
 {
     LinkedList<int> list;
 
@@ -14,7 +14,7 @@ TEST(InsertBackTests, InsertIntoEmptyList)
 }
 
 
-TEST(InsertBackTests, InsertMultipleElements)
+TEST(LinkedListInsertBackTests, InsertMultipleElements)
 {
     LinkedList<int> list;
 
@@ -30,7 +30,7 @@ TEST(InsertBackTests, InsertMultipleElements)
 }
 
 
-TEST(InsertBackTests, PreservesInsertionOrder)
+TEST(LinkedListInsertBackTests, PreservesInsertionOrder)
 {
     LinkedList<int> list;
 
@@ -48,7 +48,7 @@ TEST(InsertBackTests, PreservesInsertionOrder)
 }
 
 
-TEST(InsertBackTests, InsertDuplicateValues)
+TEST(LinkedListInsertBackTests, InsertDuplicateValues)
 {
     LinkedList<int> list;
 
@@ -60,7 +60,7 @@ TEST(InsertBackTests, InsertDuplicateValues)
 }
 
 
-TEST(InsertBackTests, InsertStringValues)
+TEST(LinkedListInsertBackTests, InsertStringValues)
 {
     LinkedList<std::string> list;
 
@@ -74,7 +74,7 @@ TEST(InsertBackTests, InsertStringValues)
 }
 
 
-TEST(InsertBackTests, LargeNumberOfInsertions)
+TEST(LinkedListInsertBackTests, LargeNumberOfInsertions)
 {
     LinkedList<int> list;
 

@@ -2,7 +2,7 @@
 #include "../../include/LinkedList.h"
 
 
-TEST(ClearTests, ClearEmptyList)
+TEST(LinkedListClearTests, ClearEmptyList)
 {
     LinkedList<int> list;
 
@@ -13,7 +13,7 @@ TEST(ClearTests, ClearEmptyList)
 }
 
 
-TEST(ClearTests, ClearSingleElement)
+TEST(LinkedListClearTests, ClearSingleElement)
 {
     LinkedList<int> list;
 
@@ -27,7 +27,7 @@ TEST(ClearTests, ClearSingleElement)
 }
 
 
-TEST(ClearTests, ClearMultipleElements)
+TEST(LinkedListClearTests, ClearMultipleElements)
 {
     LinkedList<int> list;
 
@@ -44,7 +44,7 @@ TEST(ClearTests, ClearMultipleElements)
 }
 
 
-TEST(ClearTests, InsertAfterClear)
+TEST(LinkedListClearTests, InsertAfterClear)
 {
     LinkedList<int> list;
 
@@ -61,7 +61,7 @@ TEST(ClearTests, InsertAfterClear)
 }
 
 
-TEST(ClearTests, MultipleClearCalls)
+TEST(LinkedListClearTests, MultipleClearCalls)
 {
     LinkedList<int> list;
 
@@ -76,7 +76,7 @@ TEST(ClearTests, MultipleClearCalls)
 }
 
 
-TEST(ClearTests, ClearStringList)
+TEST(LinkedListClearTests, ClearStringList)
 {
     LinkedList<std::string> list;
 

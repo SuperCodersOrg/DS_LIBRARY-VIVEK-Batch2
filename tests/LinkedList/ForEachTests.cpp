@@ -1,7 +1,7 @@
 #include <gtest/gtest.h> 
 #include "../../include/LinkedList.h"
 
-TEST(ForEachTests, EmptyList)
+TEST(LinkedListForEachTests, EmptyList)
 {
     LinkedList<int> list;
 
@@ -15,7 +15,7 @@ TEST(ForEachTests, EmptyList)
     EXPECT_EQ(sum, 0);
 }
 
-TEST(ForEachTests, SumElements)
+TEST(LinkedListForEachTests, SumElements)
 {
     LinkedList<int> list;
 
@@ -33,7 +33,7 @@ TEST(ForEachTests, SumElements)
     EXPECT_EQ(sum, 60);
 }
 
-TEST(ForEachTests, ModifyElements)
+TEST(LinkedListForEachTests, ModifyElements)
 {
     LinkedList<int> list;
 
@@ -52,7 +52,7 @@ TEST(ForEachTests, ModifyElements)
 }
 
 
-TEST(ForEachTests, VisitEveryElement)
+TEST(LinkedListForEachTests, VisitEveryElement)
 {
     LinkedList<int> list;
 
@@ -69,7 +69,7 @@ TEST(ForEachTests, VisitEveryElement)
     EXPECT_EQ(count, 5);
 }
 
-TEST(ForEachTests, StringElements)
+TEST(LinkedListForEachTests, StringElements)
 {
     LinkedList<std::string> list;
 
@@ -87,7 +87,7 @@ TEST(ForEachTests, StringElements)
     EXPECT_EQ(result, "ABC");
 }
 
-TEST(ForEachTests, TraversalOrder)
+TEST(LinkedListForEachTests, TraversalOrder)
 {
     LinkedList<int> list;
 

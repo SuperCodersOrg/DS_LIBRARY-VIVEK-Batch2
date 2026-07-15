@@ -2,7 +2,7 @@
 #include "../../include/DynamicArray.h"
 
 
-TEST(PopTests, PopSingleElement)
+TEST(DynamicArrayPopTests, PopSingleElement)
 {
     DynamicArray<int> arr;
 
@@ -12,7 +12,7 @@ TEST(PopTests, PopSingleElement)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(PopTests, PopReturnsLastElement)
+TEST(DynamicArrayPopTests, PopReturnsLastElement)
 {
     DynamicArray<int> arr;
 
@@ -24,7 +24,7 @@ TEST(PopTests, PopReturnsLastElement)
     EXPECT_EQ(arr.size(), 2);
 }
 
-TEST(PopTests, MultipleConsecutivePops)
+TEST(DynamicArrayPopTests, MultipleConsecutivePops)
 {
     DynamicArray<int> arr;
 
@@ -39,7 +39,7 @@ TEST(PopTests, MultipleConsecutivePops)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(PopTests, PopPreservesRemainingElements)
+TEST(DynamicArrayPopTests, PopPreservesRemainingElements)
 {
     DynamicArray<int> arr;
 
@@ -54,14 +54,14 @@ TEST(PopTests, PopPreservesRemainingElements)
     EXPECT_EQ(arr[1], 10);
 }
 
-TEST(PopTests, PopFromEmptyArrayThrows)
+TEST(DynamicArrayPopTests, PopFromEmptyArrayThrows)
 {
     DynamicArray<int> arr;
 
     EXPECT_THROW(arr.pop(), std::out_of_range);
 }
 
-TEST(PopTests, PopStringElement)
+TEST(DynamicArrayPopTests, PopStringElement)
 {
     DynamicArray<std::string> arr;
 

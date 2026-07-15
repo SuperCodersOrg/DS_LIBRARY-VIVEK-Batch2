@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../include/DynamicArray.h"
 
-TEST(OperatorBracketTests, AccessValidElements)
+TEST(DynamicArrayOperatorBracketTests, AccessValidElements)
 {
     DynamicArray<int> arr;
 
@@ -14,7 +14,7 @@ TEST(OperatorBracketTests, AccessValidElements)
     EXPECT_EQ(arr[2], 30);
 }
 
-TEST(OperatorBracketTests, ModifyElement)
+TEST(DynamicArrayOperatorBracketTests, ModifyElement)
 {
     DynamicArray<int> arr;
 
@@ -25,7 +25,7 @@ TEST(OperatorBracketTests, ModifyElement)
     EXPECT_EQ(arr[0], 99);
 }
 
-TEST(OperatorBracketTests, AccessFirstAndLastElement)
+TEST(DynamicArrayOperatorBracketTests, AccessFirstAndLastElement)
 {
     DynamicArray<int> arr;
 
@@ -37,7 +37,7 @@ TEST(OperatorBracketTests, AccessFirstAndLastElement)
     EXPECT_EQ(arr[arr.size() - 1], 15);
 }
 
-TEST(OperatorBracketTests, InvalidIndexThrows)
+TEST(DynamicArrayOperatorBracketTests, InvalidIndexThrows)
 {
     DynamicArray<int> arr;
 
@@ -47,7 +47,7 @@ TEST(OperatorBracketTests, InvalidIndexThrows)
     EXPECT_THROW(arr[100], std::out_of_range);
 }
 
-TEST(OperatorBracketTests, ConstAccess)
+TEST(DynamicArrayOperatorBracketTests, ConstAccess)
 {
     DynamicArray<int> temp;
 
@@ -60,7 +60,7 @@ TEST(OperatorBracketTests, ConstAccess)
     EXPECT_EQ(arr[1], 20);
 }
 
-TEST(OperatorBracketTests, StringElements)
+TEST(DynamicArrayOperatorBracketTests, StringElements)
 {
     DynamicArray<std::string> arr;
 

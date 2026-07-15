@@ -1,7 +1,7 @@
 #include <gtest/gtest.h> 
 #include "../../include/LinkedList.h"
 
-TEST(ConstructorTests, NewListIsEmpty)
+TEST(LinkedListConstructorTests, NewListIsEmpty)
 {
     LinkedList<int> list;
 
@@ -10,7 +10,7 @@ TEST(ConstructorTests, NewListIsEmpty)
 }
 
 
-TEST(ConstructorTests, SearchInEmptyList)
+TEST(LinkedListConstructorTests, SearchInEmptyList)
 {
     LinkedList<int> list;
 
@@ -18,7 +18,7 @@ TEST(ConstructorTests, SearchInEmptyList)
 }
 
 
-TEST(ConstructorTests, FindInEmptyList)
+TEST(LinkedListConstructorTests, FindInEmptyList)
 {
     LinkedList<int> list;
 
@@ -26,7 +26,7 @@ TEST(ConstructorTests, FindInEmptyList)
 }
 
 
-TEST(ConstructorTests, ClearNewList)
+TEST(LinkedListConstructorTests, ClearNewList)
 {
     LinkedList<int> list;
 
@@ -37,7 +37,7 @@ TEST(ConstructorTests, ClearNewList)
 }
 
 
-TEST(ConstructorTests, DeleteFrontOnNewList)
+TEST(LinkedListConstructorTests, DeleteFrontOnNewList)
 {
     LinkedList<int> list;
 
@@ -48,7 +48,7 @@ TEST(ConstructorTests, DeleteFrontOnNewList)
 }
 
 
-TEST(ConstructorTests, StringListConstructor)
+TEST(LinkedListConstructorTests, StringListConstructor)
 {
     LinkedList<std::string> list;
 

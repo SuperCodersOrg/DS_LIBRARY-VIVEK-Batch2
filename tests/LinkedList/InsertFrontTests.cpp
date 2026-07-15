@@ -2,7 +2,7 @@
 #include "../../include/LinkedList.h"
 
 // insert into empty list
-TEST(InsertFrontTests, InsertIntoEmptyList)
+TEST(LinkedListInsertFrontTests, InsertIntoEmptyList)
 {
     LinkedList<int> list;
 
@@ -14,7 +14,7 @@ TEST(InsertFrontTests, InsertIntoEmptyList)
     EXPECT_TRUE(found);
 }
 
-TEST(InsertFrontTests, InsertMultipleElements)
+TEST(LinkedListInsertFrontTests, InsertMultipleElements)
 {
     LinkedList<int> list;
 
@@ -29,7 +29,7 @@ TEST(InsertFrontTests, InsertMultipleElements)
     EXPECT_TRUE(list.search(30));
 }
 
-TEST(InsertFrontTests, NewElementBecomesHead)
+TEST(LinkedListInsertFrontTests, NewElementBecomesHead)
 {
     LinkedList<int> list;
 
@@ -39,7 +39,7 @@ TEST(InsertFrontTests, NewElementBecomesHead)
     EXPECT_EQ(*list.find(10), 10);
 }
 
-TEST(InsertFrontTests, InsertDuplicateValues)
+TEST(LinkedListInsertFrontTests, InsertDuplicateValues)
 {
     LinkedList<int> list;
 
@@ -50,7 +50,7 @@ TEST(InsertFrontTests, InsertDuplicateValues)
     EXPECT_TRUE(list.search(5));
 }
 
-TEST(InsertFrontTests, InsertStringValues)
+TEST(LinkedListInsertFrontTests, InsertStringValues)
 {
     LinkedList<std::string> list;
 
@@ -63,7 +63,7 @@ TEST(InsertFrontTests, InsertStringValues)
     EXPECT_EQ(list.size(), 2);
 }
 
-TEST(InsertFrontTests, LargeNumberOfInsertions)
+TEST(LinkedListInsertFrontTests, LargeNumberOfInsertions)
 {
     LinkedList<int> list;
 

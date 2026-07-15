@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../include/DynamicArray.h"
 
-TEST(ClearTests, ClearEmptyArray)
+TEST(DynamicArrayClearTests, ClearEmptyArray)
 {
     DynamicArray<int> arr;
 
@@ -10,7 +10,7 @@ TEST(ClearTests, ClearEmptyArray)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(ClearTests, ClearSingleElement)
+TEST(DynamicArrayClearTests, ClearSingleElement)
 {
     DynamicArray<int> arr;
 
@@ -21,7 +21,7 @@ TEST(ClearTests, ClearSingleElement)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(ClearTests, ClearMultipleElements)
+TEST(DynamicArrayClearTests, ClearMultipleElements)
 {
     DynamicArray<int> arr;
 
@@ -33,7 +33,7 @@ TEST(ClearTests, ClearMultipleElements)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(ClearTests, AppendAfterClear)
+TEST(DynamicArrayClearTests, AppendAfterClear)
 {
     DynamicArray<int> arr;
 
@@ -48,7 +48,7 @@ TEST(ClearTests, AppendAfterClear)
     EXPECT_EQ(arr[0], 30);
 }
 
-TEST(ClearTests, ClearStringArray)
+TEST(DynamicArrayClearTests, ClearStringArray)
 {
     DynamicArray<std::string> arr;
 
@@ -60,7 +60,7 @@ TEST(ClearTests, ClearStringArray)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(ClearTests, ClearMultipleTimes)
+TEST(DynamicArrayClearTests, ClearMultipleTimes)
 {
     DynamicArray<int> arr;
 

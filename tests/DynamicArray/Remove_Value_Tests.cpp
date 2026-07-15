@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../../include/DynamicArray.h"
 
-TEST(RemoveTests, RemoveExistingElement)
+TEST(DynamicArrayRemoveTests, RemoveExistingElement)
 {
     DynamicArray<int> arr;
 
@@ -16,7 +16,7 @@ TEST(RemoveTests, RemoveExistingElement)
     EXPECT_EQ(arr[1], 30);
 }
 
-TEST(RemoveTests, RemoveFirstElement)
+TEST(DynamicArrayRemoveTests, RemoveFirstElement)
 {
     DynamicArray<int> arr;
 
@@ -31,7 +31,7 @@ TEST(RemoveTests, RemoveFirstElement)
     EXPECT_EQ(arr[1], 30);
 }
 
-TEST(RemoveTests, RemoveLastElement)
+TEST(DynamicArrayRemoveTests, RemoveLastElement)
 {
     DynamicArray<int> arr;
 
@@ -46,7 +46,7 @@ TEST(RemoveTests, RemoveLastElement)
     EXPECT_EQ(arr[1], 20);
 }
 
-TEST(RemoveTests, RemoveNonExistingElement)
+TEST(DynamicArrayRemoveTests, RemoveNonExistingElement)
 {
     DynamicArray<int> arr;
 
@@ -60,7 +60,7 @@ TEST(RemoveTests, RemoveNonExistingElement)
     EXPECT_EQ(arr[1], 20);
 }
 
-TEST(RemoveTests, RemoveFromEmptyArray)
+TEST(DynamicArrayRemoveTests, RemoveFromEmptyArray)
 {
     DynamicArray<int> arr;
 
@@ -70,7 +70,7 @@ TEST(RemoveTests, RemoveFromEmptyArray)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(RemoveTests, RemoveDuplicateElement)
+TEST(DynamicArrayRemoveTests, RemoveDuplicateElement)
 {
     DynamicArray<int> arr;
 

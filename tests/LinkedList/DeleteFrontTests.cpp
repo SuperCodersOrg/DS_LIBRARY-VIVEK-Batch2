@@ -1,7 +1,7 @@
 #include <gtest/gtest.h> 
 #include "../../include/LinkedList.h"
 
-TEST(DeleteFrontTests, DeleteFromEmptyList)
+TEST(LinkedListDeleteFrontTests, DeleteFromEmptyList)
 {
     LinkedList<int> list;
 
@@ -11,7 +11,7 @@ TEST(DeleteFrontTests, DeleteFromEmptyList)
     EXPECT_EQ(list.size(), 0);
 }
 
-TEST(DeleteFrontTests, DeleteOnlyElement)
+TEST(LinkedListDeleteFrontTests, DeleteOnlyElement)
 {
     LinkedList<int> list;
 
@@ -24,7 +24,7 @@ TEST(DeleteFrontTests, DeleteOnlyElement)
     EXPECT_FALSE(list.search(10));
 }
 
-TEST(DeleteFrontTests, DeleteFrontFromMultipleElements)
+TEST(LinkedListDeleteFrontTests, DeleteFrontFromMultipleElements)
 {
     LinkedList<int> list;
 
@@ -41,7 +41,7 @@ TEST(DeleteFrontTests, DeleteFrontFromMultipleElements)
     EXPECT_TRUE(list.search(30));
 }
 
-TEST(DeleteFrontTests, DeleteAllElements)
+TEST(LinkedListDeleteFrontTests, DeleteAllElements)
 {
     LinkedList<int> list;
 
@@ -58,7 +58,7 @@ TEST(DeleteFrontTests, DeleteAllElements)
 }
 
 
-TEST(DeleteFrontTests, MultipleDeletesOnEmptyList)
+TEST(LinkedListDeleteFrontTests, MultipleDeletesOnEmptyList)
 {
     LinkedList<int> list;
 
@@ -71,7 +71,7 @@ TEST(DeleteFrontTests, MultipleDeletesOnEmptyList)
 }
 
 
-TEST(DeleteFrontTests, DeleteStringElements)
+TEST(LinkedListDeleteFrontTests, DeleteStringElements)
 {
     LinkedList<std::string> list;
 

@@ -2,7 +2,7 @@
 #include "../../include/DynamicArray.h"
 
 
-TEST(PopAtIndexTests, PopFirstElement)
+TEST(DynamicArrayPopAtIndexTests, PopFirstElement)
 {
     DynamicArray<int> arr;
 
@@ -17,7 +17,7 @@ TEST(PopAtIndexTests, PopFirstElement)
     EXPECT_EQ(arr[1], 30);
 }
 
-TEST(PopAtIndexTests, PopMiddleElement)
+TEST(DynamicArrayPopAtIndexTests, PopMiddleElement)
 {
     DynamicArray<int> arr;
 
@@ -34,7 +34,7 @@ TEST(PopAtIndexTests, PopMiddleElement)
     EXPECT_EQ(arr[2], 40);
 }
 
-TEST(PopAtIndexTests, PopLastElement)
+TEST(DynamicArrayPopAtIndexTests, PopLastElement)
 {
     DynamicArray<int> arr;
 
@@ -49,7 +49,7 @@ TEST(PopAtIndexTests, PopLastElement)
     EXPECT_EQ(arr[1], 20);
 }
 
-TEST(PopAtIndexTests, PopOnlyElement)
+TEST(DynamicArrayPopAtIndexTests, PopOnlyElement)
 {
     DynamicArray<int> arr;
 
@@ -59,7 +59,7 @@ TEST(PopAtIndexTests, PopOnlyElement)
     EXPECT_EQ(arr.size(), 0);
 }
 
-TEST(PopAtIndexTests, InvalidIndexThrows)
+TEST(DynamicArrayPopAtIndexTests, InvalidIndexThrows)
 {
     DynamicArray<int> arr;
 
@@ -69,7 +69,7 @@ TEST(PopAtIndexTests, InvalidIndexThrows)
     EXPECT_THROW(arr.pop(100), std::out_of_range);
 }
 
-TEST(PopAtIndexTests, PopStringElement)
+TEST(DynamicArrayPopAtIndexTests, PopStringElement)
 {
     DynamicArray<std::string> arr;
 

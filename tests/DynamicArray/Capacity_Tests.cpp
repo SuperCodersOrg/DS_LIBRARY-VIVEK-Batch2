@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 #include "../../include/DynamicArray.h"
 
-TEST(CapacityTests, InitialCapacity)
+TEST(DynamicArrayCapacityTests, InitialCapacity)
 {
     DynamicArray<int> arr;
 
     EXPECT_GE(arr.capacity(), 0);
 }
 
-TEST(CapacityTests, CapacityNeverLessThanSize)
+TEST(DynamicArrayCapacityTests, CapacityNeverLessThanSize)
 {
     DynamicArray<int> arr;
 
@@ -18,7 +18,7 @@ TEST(CapacityTests, CapacityNeverLessThanSize)
     EXPECT_GE(arr.capacity(), arr.size());
 }
 
-TEST(CapacityTests, CapacityIncreasesAfterResize)
+TEST(DynamicArrayCapacityTests, CapacityIncreasesAfterResize)
 {
     DynamicArray<int> arr;
 
@@ -30,7 +30,7 @@ TEST(CapacityTests, CapacityIncreasesAfterResize)
     EXPECT_GT(arr.capacity(), oldCapacity);
 }
 
-TEST(CapacityTests, CapacityAfterClear)
+TEST(DynamicArrayCapacityTests, CapacityAfterClear)
 {
     DynamicArray<int> arr;
 
@@ -45,7 +45,7 @@ TEST(CapacityTests, CapacityAfterClear)
     EXPECT_EQ(arr.capacity(), oldCapacity);
 }
 
-TEST(CapacityTests, StringArrayCapacity)
+TEST(DynamicArrayCapacityTests, StringArrayCapacity)
 {
     DynamicArray<std::string> arr;
 

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h> 
 #include "../../include/LinkedList.h"
 
-TEST(SearchTests, SearchInEmptyList)
+TEST(LinkedListSearchTests, SearchInEmptyList)
 {
     LinkedList<int> list;
 
@@ -9,7 +9,7 @@ TEST(SearchTests, SearchInEmptyList)
 }
 
 
-TEST(SearchTests, SearchExistingElement)
+TEST(LinkedListSearchTests, SearchExistingElement)
 {
     LinkedList<int> list;
 
@@ -21,7 +21,7 @@ TEST(SearchTests, SearchExistingElement)
 }
 
 
-TEST(SearchTests, SearchNonExistingElement)
+TEST(LinkedListSearchTests, SearchNonExistingElement)
 {
     LinkedList<int> list;
 
@@ -31,7 +31,7 @@ TEST(SearchTests, SearchNonExistingElement)
     EXPECT_FALSE(list.search(30));
 }
 
-TEST(SearchTests, SearchFirstAndLastElement)
+TEST(LinkedListSearchTests, SearchFirstAndLastElement)
 {
     LinkedList<int> list;
 
@@ -43,7 +43,7 @@ TEST(SearchTests, SearchFirstAndLastElement)
     EXPECT_TRUE(list.search(30));
 }
 
-TEST(SearchTests, SearchDuplicateValues)
+TEST(LinkedListSearchTests, SearchDuplicateValues)
 {
     LinkedList<int> list;
 
@@ -55,7 +55,7 @@ TEST(SearchTests, SearchDuplicateValues)
     EXPECT_TRUE(list.search(20));
 }
 
-TEST(SearchTests, SearchStringValues)
+TEST(LinkedListSearchTests, SearchStringValues)
 {
     LinkedList<std::string> list;
 

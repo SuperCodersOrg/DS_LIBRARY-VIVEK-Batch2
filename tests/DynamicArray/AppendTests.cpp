@@ -55,7 +55,7 @@ TEST(DynamicArrayPushBackTest, PushLargeDataset)
 }
 
 // Test 4: Append default value
-TEST(AppendTests, AppendDefaultValue)
+TEST(DynamicArrayAppendTests, AppendDefaultValue)
 {
     DynamicArray<int> arr;
 
@@ -66,7 +66,7 @@ TEST(AppendTests, AppendDefaultValue)
 }
 
 // Test 5: Append string elements
-TEST(AppendTests, AppendStringElements)
+TEST(DynamicArrayAppendTests, AppendStringElements)
 {
     DynamicArray<std::string> arr;
 
@@ -79,7 +79,7 @@ TEST(AppendTests, AppendStringElements)
 }
 
 // Test 6: Preserve insertion order
-TEST(AppendTests, AppendMaintainsInsertionOrder)
+TEST(DynamicArrayAppendTests, AppendMaintainsInsertionOrder)
 {
     DynamicArray<int> arr;
 

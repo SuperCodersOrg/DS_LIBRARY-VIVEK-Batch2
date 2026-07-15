@@ -1,14 +1,14 @@
 #include <gtest/gtest.h> 
 #include "../../include/LinkedList.h"
 
-TEST(SizeTests, EmptyListSizeIsZero)
+TEST(LinkedListSizeTests, EmptyListSizeIsZero)
 {
     LinkedList<int> list;
 
     EXPECT_EQ(list.size(), 0);
 }
 
-TEST(SizeTests, SizeAfterInsertions)
+TEST(LinkedListSizeTests, SizeAfterInsertions)
 {
     LinkedList<int> list;
 
@@ -19,7 +19,7 @@ TEST(SizeTests, SizeAfterInsertions)
     EXPECT_EQ(list.size(), 3);
 }
 
-TEST(SizeTests, SizeAfterDeletion)
+TEST(LinkedListSizeTests, SizeAfterDeletion)
 {
     LinkedList<int> list;
 
@@ -32,7 +32,7 @@ TEST(SizeTests, SizeAfterDeletion)
     EXPECT_EQ(list.size(), 2);
 }
 
-TEST(SizeTests, SizeAfterRemove)
+TEST(LinkedListSizeTests, SizeAfterRemove)
 {
     LinkedList<int> list;
 
@@ -45,7 +45,7 @@ TEST(SizeTests, SizeAfterRemove)
     EXPECT_EQ(list.size(), 2);
 }
 
-TEST(SizeTests, SizeAfterClear)
+TEST(LinkedListSizeTests, SizeAfterClear)
 {
     LinkedList<int> list;
 
@@ -57,7 +57,7 @@ TEST(SizeTests, SizeAfterClear)
     EXPECT_EQ(list.size(), 0);
 }
 
-TEST(SizeTests, SizeUnchangedAfterInvalidInsert)
+TEST(LinkedListSizeTests, SizeUnchangedAfterInvalidInsert)
 {
     LinkedList<int> list;
 

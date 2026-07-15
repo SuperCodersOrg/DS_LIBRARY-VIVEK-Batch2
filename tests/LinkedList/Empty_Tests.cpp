@@ -2,7 +2,7 @@
 #include "../../include/LinkedList.h"
 
 
-TEST(EmptyTests, NewListIsEmpty)
+TEST(LinkedListEmptyTests, NewListIsEmpty)
 {
     LinkedList<int> list;
 
@@ -10,7 +10,7 @@ TEST(EmptyTests, NewListIsEmpty)
 }
 
 
-TEST(EmptyTests, NotEmptyAfterInsertion)
+TEST(LinkedListEmptyTests, NotEmptyAfterInsertion)
 {
     LinkedList<int> list;
 
@@ -20,7 +20,7 @@ TEST(EmptyTests, NotEmptyAfterInsertion)
 }
 
 
-TEST(EmptyTests, EmptyAfterDeletingOnlyElement)
+TEST(LinkedListEmptyTests, EmptyAfterDeletingOnlyElement)
 {
     LinkedList<int> list;
 
@@ -32,7 +32,7 @@ TEST(EmptyTests, EmptyAfterDeletingOnlyElement)
 }
 
 
-TEST(EmptyTests, EmptyAfterClear)
+TEST(LinkedListEmptyTests, EmptyAfterClear)
 {
     LinkedList<int> list;
 
@@ -45,7 +45,7 @@ TEST(EmptyTests, EmptyAfterClear)
 }
 
 
-TEST(EmptyTests, NotEmptyAfterRemovingOneElement)
+TEST(LinkedListEmptyTests, NotEmptyAfterRemovingOneElement)
 {
     LinkedList<int> list;
 
@@ -58,7 +58,7 @@ TEST(EmptyTests, NotEmptyAfterRemovingOneElement)
 }
 
 
-TEST(EmptyTests, EmptyAfterRemovingAllElements)
+TEST(LinkedListEmptyTests, EmptyAfterRemovingAllElements)
 {
     LinkedList<int> list;
 

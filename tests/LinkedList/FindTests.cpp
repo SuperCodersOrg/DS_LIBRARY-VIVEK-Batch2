@@ -1,14 +1,14 @@
 #include <gtest/gtest.h> 
 #include "../../include/LinkedList.h"
 
-TEST(FindTests, FindInEmptyList)
+TEST(LinkedListFindTests, FindInEmptyList)
 {
     LinkedList<int> list;
 
     EXPECT_EQ(list.find(10), nullptr);
 }
 
-TEST(FindTests, FindExistingElement)
+TEST(LinkedListFindTests, FindExistingElement)
 {
     LinkedList<int> list;
 
@@ -22,7 +22,7 @@ TEST(FindTests, FindExistingElement)
     EXPECT_EQ(*ptr, 20);
 }
 
-TEST(FindTests, FindNonExistingElement)
+TEST(LinkedListFindTests, FindNonExistingElement)
 {
     LinkedList<int> list;
 
@@ -32,7 +32,7 @@ TEST(FindTests, FindNonExistingElement)
     EXPECT_EQ(list.find(30), nullptr);
 }
 
-TEST(FindTests, ModifyElementUsingReturnedPointer)
+TEST(LinkedListFindTests, ModifyElementUsingReturnedPointer)
 {
     LinkedList<int> list;
 
@@ -48,7 +48,7 @@ TEST(FindTests, ModifyElementUsingReturnedPointer)
     EXPECT_FALSE(list.search(10));
 }
 
-TEST(FindTests, ConstFind)
+TEST(LinkedListFindTests, ConstFind)
 {
     LinkedList<int> temp;
 
@@ -63,7 +63,7 @@ TEST(FindTests, ConstFind)
     EXPECT_EQ(*ptr, 20);
 }
 
-TEST(FindTests, FindStringElement)
+TEST(LinkedListFindTests, FindStringElement)
 {
     LinkedList<std::string> list;
 

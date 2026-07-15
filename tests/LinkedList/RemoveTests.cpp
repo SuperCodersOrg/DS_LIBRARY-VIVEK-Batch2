@@ -1,7 +1,7 @@
 #include <gtest/gtest.h> 
 #include "../../include/LinkedList.h"
 
-TEST(RemoveTests, RemoveFromEmptyList)
+TEST(LinkedListRemoveTests, RemoveFromEmptyList)
 {
     LinkedList<int> list;
 
@@ -11,7 +11,7 @@ TEST(RemoveTests, RemoveFromEmptyList)
     EXPECT_EQ(list.size(), 0);
 }
 
-TEST(RemoveTests, RemoveHeadElement)
+TEST(LinkedListRemoveTests, RemoveHeadElement)
 {
     LinkedList<int> list;
 
@@ -27,7 +27,7 @@ TEST(RemoveTests, RemoveHeadElement)
     EXPECT_TRUE(list.search(30));
 }
 
-TEST(RemoveTests, RemoveMiddleElement)
+TEST(LinkedListRemoveTests, RemoveMiddleElement)
 {
     LinkedList<int> list;
 
@@ -43,7 +43,7 @@ TEST(RemoveTests, RemoveMiddleElement)
     EXPECT_TRUE(list.search(30));
 }
 
-TEST(RemoveTests, RemoveLastElement)
+TEST(LinkedListRemoveTests, RemoveLastElement)
 {
     LinkedList<int> list;
 
@@ -59,7 +59,7 @@ TEST(RemoveTests, RemoveLastElement)
     EXPECT_FALSE(list.search(30));
 }
 
-TEST(RemoveTests, RemoveNonExistingElement)
+TEST(LinkedListRemoveTests, RemoveNonExistingElement)
 {
     LinkedList<int> list;
 
@@ -73,7 +73,7 @@ TEST(RemoveTests, RemoveNonExistingElement)
     EXPECT_TRUE(list.search(20));
 }
 
-TEST(RemoveTests, RemoveDuplicateElement)
+TEST(LinkedListRemoveTests, RemoveDuplicateElement)
 {
     LinkedList<int> list;
 
